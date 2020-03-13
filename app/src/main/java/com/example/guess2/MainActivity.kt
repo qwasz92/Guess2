@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 class MainActivity : AppCompatActivity() {
-
+//建立MainActivity 繼承 AppCompatActivity()
+    val secretNumber=SecretNumber()
+//    產生可以用secretNumber的類別方法
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+//        複寫 副類別 onCreate自動執行類別
+    super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
 }
