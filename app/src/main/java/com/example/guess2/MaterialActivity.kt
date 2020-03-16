@@ -1,5 +1,6 @@
 package com.example.guess2
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -46,6 +47,16 @@ class MaterialActivity : AppCompatActivity() {
         //      設計counter的文字顯示
         Log.d(TAG, " onCreate: "+secretNumber.secert);
 //        增加Log 的secert隱藏數字顯示
+        val count =getSharedPreferences("guess",Context.MODE_PRIVATE)
+        .getInt("REC_COUNTER",-1)
+/*如果開啟後想讀取資料count的資料，可使用getSharedPreferences，檔案名稱要一樣，並MODE的PRIVATE。
+直接取得檔案的getInt並找出記錄名稱(不能與一開始設定的名稱不一樣)，若檔案內沒有資料可以給他-1*/
+        val nick = getSharedPreferences("guess", Context.MODE_PRIVATE)
+            .getString("REC_NICKNAME",null)
+/*如果開啟後想讀取資料nike的資料，可使用getSharedPreferences，檔案名稱要一樣，並MODE的PRIVATE。
+直接取得檔案getString並找出記錄名稱(不能與一開始設定的名稱不一樣)，若檔案內沒有資料可以給他-1*/
+        Log.d(TAG, "data:$count/$nick");
+//        設定Log.d除錯(活動名稱 "名稱 +cont/ +nick")
     }
     fun check (view: View)
 //    建立一個check方法 (view物件:View類別)
