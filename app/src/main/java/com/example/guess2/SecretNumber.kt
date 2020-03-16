@@ -4,8 +4,8 @@ import kotlin.random.Random
 
 class SecretNumber {
 //    設計一個類別class SecretNumber
-    val secert:Int = Random.nextInt(10)+1
-//    定義一個不可變的secert並給它Int值 = Random(亂數) 的一個整數值(10)
+    var secert:Int = Random.nextInt(10)+1
+//    定義一個可變的secert並給它Int值 = Random(亂數) 的一個整數值(10)
     var count = 0
 //    定義一個可以變得值count
     fun validate(number:Int):Int{
@@ -15,6 +15,13 @@ class SecretNumber {
     return number-secert
 //    回傳數字-亂數
 }
+    fun reset(){
+//   建立重設方法reser
+        secert = Random.nextInt(10)+1
+//   再次建立        secert = Random.nextInt(10)+1
+        count = 0
+//   再次將程式count =0
+    }
 }
 
 fun main() {
