@@ -1,11 +1,11 @@
 package com.example.guess2
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_material.*
@@ -22,28 +22,31 @@ class MaterialActivity : AppCompatActivity() {
         setContentView(R.layout.activity_material)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            AlertDialog.Builder(this).
+    fab.setOnClickListener { view ->
+        AlertDialog.Builder(this).
 //      對話框的Builder模式(在哪顯示)
-                setTitle("Replay game").
+        setTitle("Replay game").
 //      標題
-                setMessage("Are you sure").
+        setMessage("Are you sure").
 //      訊息
 /*                setPositiveButton(getString(R.string.ok),null).
         按鈕("文字內容",之後不做任何事)*/
-                setPositiveButton(getString(R.string.ok),{dialog, which -> secretNumber.reset()
+        setPositiveButton(getString(R.string.ok),{dialog, which -> secretNumber.reset()
  //    對話框裡面的是否選項，並給予{}方式 dialog, 選擇which 哪個方法 ->  secretNumber.reset()
-                counter.setText(secretNumber.count.toString())
+        counter.setText(secretNumber.count.toString())
 //      設計counter的文字顯示
-                    number.setText("")}).
+        number.setText("")}).
 //     文字方塊重製
-                setNegativeButton("Cancel",null).
+        setNegativeButton("Cancel",null).
 //     按鈕否的設定並且給予null(不做任何事情)
                 show()
-//            顯示
-        }
-
-            }
+//      顯示
+}
+        counter.setText(secretNumber.count.toString())
+        //      設計counter的文字顯示
+        Log.d(TAG, " onCreate: "+secretNumber.secert);
+//        增加Log 的secert隱藏數字顯示
+    }
     fun check (view: View)
 //    建立一個check方法 (view物件:View類別)
     {
@@ -60,9 +63,9 @@ class MaterialActivity : AppCompatActivity() {
         if (diff<0) {
 /*     判斷式if secretNumber裡面的validate方法 ,把n船進去是否<0 原先if判斷 ->(secretNumber.validate(n)
         變更為if(diff<0)     */
-            Toast.makeText(this,R.string.bigger,Toast.LENGTH_SHORT).show()
+      Toast.makeText(this,R.string.bigger,Toast.LENGTH_SHORT).show()
 //      提示訊息Toast 印出make裡面的文字(context為位置,text為文字內容,顯示為短暫)顯示出來
-            message=getString(R.string.bigger)
+      message=getString(R.string.bigger)
 //      簡化提示訊息
         }else if (diff>0){
             message = getString(R.string.smaller)
@@ -75,11 +78,21 @@ class MaterialActivity : AppCompatActivity() {
         counter.setText(secretNumber.count.toString())
 //        設計counter的文字顯示
         AlertDialog.Builder(this)
-            .setTitle(getString(R.string.dialog_title))
-            .setMessage(message)
-            .setPositiveButton(getString(R.string.ok),null)
-            .show()
-//      對話框的Builder模式(在哪顯示)標題、訊息、按鈕("文字內容",之後不做任何事)、顯示
+//     對話框的Builder模式(在哪顯示)
+      .setTitle(getString(R.string.dialog_title))
+//     標題
+      .setMessage(message)
+//       訊息
+      .setPositiveButton(getString(R.string.ok),{dialog, which ->
+          if (diff == 0){
+       val intent = Intent(this,RecordActivity::class.java)
+       intent.putExtra("COUNTER",secretNumber.count)
+//      設定intent的方法傳出資料到RecordActivity，使用putExtra傳遞"資料名稱" 並給予哪邊的資料值
+      startActivity(intent)
+/*按鈕 if() 判斷式，當成功答對的時候(diff 等於0)，執行Intent資料傳輸轉換到第二個Activity(RecordActivity)
+    並透過執行startActivity呼叫Intent物件*/
+}
+}).show()
+//     顯示
     }
-
 }
