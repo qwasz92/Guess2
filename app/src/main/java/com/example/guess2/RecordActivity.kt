@@ -1,7 +1,9 @@
 package com.example.guess2
 
+import android.app.Activity
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_record.*
@@ -32,6 +34,14 @@ intent取得getIntExtra(要看你取得的資料名稱，但是今天是Int值)�
 //                呼叫字串("建立檔案的名稱",字串位置nick)
             .apply()
 /*            馬上使用的時候就使用commit()，如果並不是立馬使用可以用 .apply()，此案例使用apply() */
+            var intent = Intent()
+//            建立一個新的intent
+            intent.putExtra("NICK",nick)
+//            將這個intent傳入額外的資料稱為為"NICK""，是nick的物件
+            setResult(Activity.RESULT_OK,intent)
+//        當按下ok之後回傳資料結果
+            finish()
+//        結束這個Activity並回復到前一個Activity
         }
     }
 }
