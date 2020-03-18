@@ -20,6 +20,7 @@ class MaterialActivity : AppCompatActivity() {
     //    定義TAG = MaterialActivity的類別名稱
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate ");
         setContentView(R.layout.activity_material)
         setSupportActionBar(toolbar)
 
@@ -58,6 +59,46 @@ class MaterialActivity : AppCompatActivity() {
         Log.d(TAG, "data:$count/$nick");
 //        設定Log.d除錯(活動名稱 "名稱 +cont/ +nick")
     }
+/*    Activity 的生命週期
+開始啟用 -> onCreate-> onCreate: 7 (秘密數字) -> data:1/null (data資料) ->onStart -> onResume
+開始猜數字  -> 第一次猜 number:8 -> 第二次猜 number:6 -> 第三次猜 number:7(猜對了)
+猜對了切換Acitvity -> onPause -> onStop -> 顯示下一個Acitvity
+當按下返回鍵之後 -> onRestart -> onStart -> onResume
+當不玩了，跳回桌面之後 -> onPause -> onStop -> onDestroy
+* */
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart ");
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop ");
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause ");
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume ");
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart ");
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy ");
+    }
+
     fun check (view: View)
 //    建立一個check方法 (view物件:View類別)
     {
