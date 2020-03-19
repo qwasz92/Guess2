@@ -9,6 +9,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
+import com.example.guess2.data.GameDatabase
+import com.example.guess2.data.Record
 
 import kotlinx.android.synthetic.main.activity_material.*
 import kotlinx.android.synthetic.main.content_material.*
@@ -46,6 +49,14 @@ class MaterialActivity : AppCompatActivity() {
 直接取得檔案getString並找出記錄名稱(不能與一開始設定的名稱不一樣)，若檔案內沒有資料可以給他-1*/
         Log.d(TAG, "data:$count/$nick");
 //        設定Log.d除錯(活動名稱 "名稱 +cont/ +nick")
+
+//    room 測試用
+    val database = Room.databaseBuilder(this,GameDatabase::class.java,"game.db").build()
+//        定義一個不變的database，他是能執行Room的databaseBuilder
+    val record = Record("Jack",3)
+//        建立一個測試的資料名稱
+        Thread(){database.recordDao().insert(record)}.start()
+//    原先database.recordDao().insert(record)的方式較為耗時或複雜，所以利用其他的執行序Thread(){}.start()的方式將耗時的工作拉出來執行
     }
 /*    Activity 的生命週期
 開始啟用 -> onCreate-> onCreate: 7 (秘密數字) -> data:1/null (data資料) ->onStart -> onResume
@@ -54,6 +65,30 @@ class MaterialActivity : AppCompatActivity() {
 當按下返回鍵之後 -> onRestart -> onStart -> onResume
 當不玩了，跳回桌面之後 -> onPause -> onStop -> onDestroy
 * */
+
+/* 課程22 Room 新增紀錄案例實作
+Terminal 模擬器(要先開啟APP模擬程式，且先要有執行紀錄)
+先找到SDK Location 的資料位置 C:\Users\lovev\AppData\Local\Android\Sdk 複製起來
+進入模擬器輸入 cd  +空白 +資料位置
+進入後再輸入 cd +空白 +platform-tools
+進入後再執行adb指令(要先確認能不能使用)
+能使用adb指令後打入 adb + shell
+進入小型模擬器之後 輸入su (模擬器需選擇Google APIs)
+檢查資料有沒有進入 請輸入ls
+cd + 資料位置(例如:cd /data/data/com.example.guess2)
+cd +databases
+進入後在執行開啟
+sqlite3 (執行指令)
+sqlite3 +檔案名稱(例如:sqlite3  game.db)
+進入後在執行.tables
+開啟檔案內容 select*from +檔案內容; (例如:select*from Record;)
+檢查是否有資料產生出來
+1|Jack|3
+2|Jack|3
+3|Jack|3
+* */
+
+
 
     private fun replay() {
         AlertDialog.Builder(this).

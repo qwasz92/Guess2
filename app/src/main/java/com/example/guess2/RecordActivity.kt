@@ -6,6 +6,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.room.Room
+import com.example.guess2.data.GameDatabase
+import com.example.guess2.data.Record
 import kotlinx.android.synthetic.main.activity_record.*
 
 class RecordActivity : AppCompatActivity() {
@@ -34,6 +37,17 @@ intent取得getIntExtra(要看你取得的資料名稱，但是今天是Int值)�
 //                呼叫字串("建立檔案的名稱",字串位置nick)
             .apply()
 /*            馬上使用的時候就使用commit()，如果並不是立馬使用可以用 .apply()，此案例使用apply() */
+
+//     insert to room表格
+            //    room 測試用
+            val database = Room.databaseBuilder(this, GameDatabase::class.java,"game.db").build()
+//        定義一個不變的database，他是能執行Room的databaseBuilder
+            val record = Record(nick,count)
+//        建立一個測試的資料名稱
+            Thread(){database.recordDao().insert(record)}.start()
+//    原先database.recordDao().insert(record)的方式較為耗時或複雜，所以利用其他的執行序Thread(){}.start()的方式將耗時的工作拉出來執行
+
+
             var intent = Intent()
 //            建立一個新的intent
             intent.putExtra("NICK",nick)
