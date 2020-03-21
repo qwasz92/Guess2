@@ -3,6 +3,7 @@ package com.example.guess2
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -49,7 +50,20 @@ class MaterialActivity : AppCompatActivity() {
 直接取得檔案getString並找出記錄名稱(不能與一開始設定的名稱不一樣)，若檔案內沒有資料可以給他-1*/
         Log.d(TAG, "data:$count/$nick");
 //        設定Log.d除錯(活動名稱 "名稱 +cont/ +nick")
+//Room讀取資料
+        AsyncTask.execute {
+//這裡不使用利用Thread(){}的方法，我們用Java的AsyncTask的execute(快速使用的方法)將下列方式顯示出來，並不會影響到UI的順暢度
+    val list = GameDatabase.getInstance(this)?.recordDao()?.getAll()
+//利用list集合建立一個GameDatabase calss的getInstance資料利用recordDao裡面的getAll方法呼叫資料
+        list?.forEach {
+//利用for迴圈把list資料印出來
+            Log.d(TAG, "record:${it.nickname} ${it.counter} ");
+//檢查所有forEach(稱為it)裡面的資料
+        }
+        }
+    }
 
+/*
 //    room 測試用
     val database = Room.databaseBuilder(this,GameDatabase::class.java,"game.db").build()
 //        定義一個不變的database，他是能執行Room的databaseBuilder
@@ -57,7 +71,7 @@ class MaterialActivity : AppCompatActivity() {
 //        建立一個測試的資料名稱
         Thread(){database.recordDao().insert(record)}.start()
 //    原先database.recordDao().insert(record)的方式較為耗時或複雜，所以利用其他的執行序Thread(){}.start()的方式將耗時的工作拉出來執行
-    }
+    }*/
 /*    Activity 的生命週期
 開始啟用 -> onCreate-> onCreate: 7 (秘密數字) -> data:1/null (data資料) ->onStart -> onResume
 開始猜數字  -> 第一次猜 number:8 -> 第二次猜 number:6 -> 第三次猜 number:7(猜對了)

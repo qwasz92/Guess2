@@ -39,14 +39,20 @@ intent取得getIntExtra(要看你取得的資料名稱，但是今天是Int值)�
 /*            馬上使用的時候就使用commit()，如果並不是立馬使用可以用 .apply()，此案例使用apply() */
 
 //     insert to room表格
-            //    room 測試用
+ //    room 測試用
+            Thread(){GameDatabase.getInstance(this)?.
+                recordDao()?.
+                insert(Record(nick,count))}.
+                start()
+//拉出來執行 GameDatabase的getInstance(context是自己)?.recordDao()?.insert(Record(nick,count)}.start()
+/*   課程23 原先的程式碼
             val database = Room.databaseBuilder(this, GameDatabase::class.java,"game.db").build()
 //        定義一個不變的database，他是能執行Room的databaseBuilder
             val record = Record(nick,count)
 //        建立一個測試的資料名稱
             Thread(){database.recordDao().insert(record)}.start()
 //    原先database.recordDao().insert(record)的方式較為耗時或複雜，所以利用其他的執行序Thread(){}.start()的方式將耗時的工作拉出來執行
-
+*/
 
             var intent = Intent()
 //            建立一個新的intent
