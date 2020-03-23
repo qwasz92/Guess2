@@ -3,59 +3,72 @@ package com.example.guess2
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.row_function.view.*
 
 class MainActivity : AppCompatActivity() {
-//建立MainActivity 繼承 AppCompatActivity()
-    val secretNumber=SecretNumber()
-//    產生可以用secretNumber的類別方法
     val TAG = MainActivity::class.java.simpleName
-//    定義TAG = MainActivity的類別名稱
+
+    //RecyclerView (清單元件)
+    val functions = listOf<String>(
+        "Camera",
+        "Guess game",
+        "Record list",
+        "Download coupons",
+        "News",
+        "Map")
+//        建立一個不可變的functions，他是一個list的集合<他是一個字串>(名稱為)
+
     override fun onCreate(savedInstanceState: Bundle?) {
-//        複寫 副類別 onCreate自動執行類別
-    super.onCreate(savedInstanceState)
-    /*        setContentView(R.layout.linear_main)
-                linear_main.xml 封面顯示為此畫面
-        * */
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    Log.d(TAG, "secret:"+secretNumber.secert);
-//    Log.d (secretNumber) 提示出secert數字
+        recycler.layoutManager = LinearLayoutManager(this)
+//        recycler是一個清單訊息 = 清單式的編排元件(this)
+        recycler.setHasFixedSize(true)
+//        recycler是一個固定大小的(true)
+        recycler.adapter = FunctionAdapter()
+//        recycler適合的連結器是FunctionAdapter
     }
-    fun check (view:View)
-//    建立一個check方法 (view物件:View類別)
+    inner class FunctionAdapter():RecyclerView.Adapter<FunctionHolder>()
+//    內部的類別FunctionAdapter繼承RecyclerView.Adapter<是使用FunctionHolder>()
     {
-        val n = number.text.toString().toInt()
-//      定義一個n = number為text的字串轉數字
-        println("number:${n}")
-//       可使用println簡單打印出文字
-        Log.d(TAG,"number:"+n)
-//        Log除錯專用的d (tag是""哪個地方出來的  ,  msg是將""訊息印出來)\
-        val diff = secretNumber.validate(n)
-//        定義diff為secretNumber.validate(n)
-        var message = getString(R.string.yes_you_got_it)
-//        定義message 為""裡面的文字
-        if (secretNumber.validate(n)<0) {
-//      判斷式if secretNumber裡面的validate方法 ,把n船進去是否<0
-        Toast.makeText(this,R.string.bigger,Toast.LENGTH_SHORT).show()
-//      提示訊息Toast 印出make裡面的文字(context為位置,text為文字內容,顯示為短暫)顯示出來
-        message=getString(R.string.bigger)
-//      簡化提示訊息
-        }else if (diff>0){
-        message = getString(R.string.smaller)
-//      簡化提示訊息
-        }else{Toast.makeText(this,getString(R.string.yes_you_got_it),Toast.LENGTH_SHORT).show()
-//      正常if else 用法以及Toast正常用法
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FunctionHolder
+//        當onCreateViewHolder生出來之後要給我什麼
+        {
+         val view = LayoutInflater.from(parent.context).inflate(R.layout.row_function,parent,false)
+//         view物件是使用LayoutInflater的parent.context，使用inflate方法取得R.layout.row_function,parent,假值
+         val holder = FunctionHolder(view)
+//         建立holder 是一個FunctionHolder的view物件
+         return holder
+//         回傳holder
         }
-            Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
-//簡化提示訊息及else
-    AlertDialog.Builder(this)
-        .setTitle(getString(R.string.dialog_title))
-        .setMessage(message)
-        .setPositiveButton(getString(R.string.ok),null)
-        .show()
-//      對話框的Builder模式(在哪顯示)標題、訊息、按鈕("文字內容",之後不做任何事)、顯示
+
+        override fun getItemCount(): Int {
+//        裡面有幾筆資料
+          return functions.size
+//        回傳functions有多少資料
+        }
+
+        override fun onBindViewHolder(holder: FunctionHolder, position: Int)
+//        當有資料的時候
+        {
+        holder.nameText.text = functions.get(position)
+//      物件holder有個nameText的text = functions裡面取得的位置
+        }
+
+    }
+    class FunctionHolder(view : View) : RecyclerView.ViewHolder(view)
+//    一個類別FunctionHolder是一個(view:View):繼承了RecyclerView.ViewHolder的(view)物件
+    {
+     var nameText:TextView = view.name
+//    設計nameText是一個TextView 是在view物件的name
     }
 }
