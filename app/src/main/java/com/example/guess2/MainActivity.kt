@@ -1,5 +1,6 @@
 package com.example.guess2
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -62,9 +63,28 @@ class MainActivity : AppCompatActivity() {
         {
         holder.nameText.text = functions.get(position)
 //      物件holder有個nameText的text = functions裡面取得的位置
+        holder.itemView.setOnClickListener{
+//         物件holder的itemView物件被按到
+            functionClicked(position)
+//      執行functionClicked的方法
+        }
         }
 
     }
+
+    private fun functionClicked(position: Int) {
+//        方法functionClicked判斷position的值
+        when (position){
+//            判斷position
+            1 -> startActivity(Intent(this,MaterialActivity::class.java))
+//            當按下1的位置執行Intent的Activity(this,MaterialActivity::class.java))
+            2 -> startActivity(Intent(this,RecordListActivity::class.java))
+//            當按下2的位置執行Intent的Activity(this,RecordListActivity::class.java))
+            else -> return
+//            其他的回傳
+        }
+    }
+
     class FunctionHolder(view : View) : RecyclerView.ViewHolder(view)
 //    一個類別FunctionHolder是一個(view:View):繼承了RecyclerView.ViewHolder的(view)物件
     {
