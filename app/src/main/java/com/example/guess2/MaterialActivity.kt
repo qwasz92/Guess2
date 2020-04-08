@@ -51,6 +51,7 @@ class MaterialActivity : AppCompatActivity() {
         Log.d(TAG, "data:$count/$nick");
 //        設定Log.d除錯(活動名稱 "名稱 +cont/ +nick")
 //Room讀取資料
+/*課程27 因為加入suspend，所以原先的getAll不能使用
         AsyncTask.execute {
 //這裡不使用利用Thread(){}的方法，我們用Java的AsyncTask的execute(快速使用的方法)將下列方式顯示出來，並不會影響到UI的順暢度
     val list = GameDatabase.getInstance(this)?.recordDao()?.getAll()
@@ -60,7 +61,7 @@ class MaterialActivity : AppCompatActivity() {
             Log.d(TAG, "record:${it.nickname} ${it.counter} ");
 //檢查所有forEach(稱為it)裡面的資料
         }
-        }
+        }*/
     }
 
 /*

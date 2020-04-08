@@ -15,6 +15,6 @@ interface RecordDao{
 
     @Query(value = "select * from record")
 //    查詢語法，用字串"select * from 什麼表格"
-    fun getAll():List<Record>
-//    取得全部資料，不用給參數，我給你集合的方式回傳
+    suspend fun getAll():List<Record>
+//    如果加上suspend代表此方法可以使用Coroutines，取得全部資料，不用給參數，我給你集合的方式回傳
 }
