@@ -10,8 +10,8 @@ import androidx.room.Query
 interface RecordDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
 //    建立一個資料，當有衝突的時候 = OnConflictStrategy.更新
-    fun insert(record:Record)
-//    建立新增資料
+   suspend fun insert(record:Record)
+//    如果加上suspend代表此方法可以使用Coroutines，增加新資料
 
     @Query(value = "select * from record")
 //    查詢語法，用字串"select * from 什麼表格"

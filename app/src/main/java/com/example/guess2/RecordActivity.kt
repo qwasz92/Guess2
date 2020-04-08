@@ -10,13 +10,26 @@ import androidx.room.Room
 import com.example.guess2.data.GameDatabase
 import com.example.guess2.data.Record
 import kotlinx.android.synthetic.main.activity_record.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class RecordActivity : AppCompatActivity() {
-
+class RecordActivity : AppCompatActivity() ,CoroutineScope{
+//    增加實作CoroutineScope
+private lateinit var job: Job
+    //    給予一個屬性物件稱為job是Job的工作
+override val coroutineContext: CoroutineContext
+    get() = job + Dispatchers.Main
+//    在CoroutineContext的物件上面給予get() = job + Dispatchers的Main的執行序
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record)
-        val count = intent.getIntExtra("COUNTER",-1)
+        job = Job()
+    //        產生job的工作名稱
+
+    val count = intent.getIntExtra("COUNTER",-1)
 /*建立一個傳遞資料到這個Activity的定義名稱並定義它，
 intent取得getIntExtra(要看你取得的資料名稱，但是今天是Int值)，
 並告訴他是什麼的名稱"COUNTER"，並告訴他如果找不到資料時要給的預設值是多少(-1)*/
@@ -40,10 +53,21 @@ intent取得getIntExtra(要看你取得的資料名稱，但是今天是Int值)�
 
 //     insert to room表格
  //    room 測試用
+            launch {
+//        因已經繼承了CoroutineScope這個執行序，所以直接使用launch的實作方式
+
+                GameDatabase.getInstance(this@RecordActivity)?.
+                    recordDao()?.
+                    insert(Record(nick,count))
+//拉出來執行 GameDatabase的getInstance(context是自己)?.recordDao()?.insert(Record(nick,count)
+
+            }
+/*課程28 將繼承的畫面增加繼承的介面CoroutineScope介面，主要做更改呼叫的方式
+
             Thread(){GameDatabase.getInstance(this)?.
                 recordDao()?.
                 insert(Record(nick,count))}.
-                start()
+                start()*/
 //拉出來執行 GameDatabase的getInstance(context是自己)?.recordDao()?.insert(Record(nick,count)}.start()
 /*   課程23 原先的程式碼
             val database = Room.databaseBuilder(this, GameDatabase::class.java,"game.db").build()
@@ -63,6 +87,13 @@ intent取得getIntExtra(要看你取得的資料名稱，但是今天是Int值)�
             finish()
 //        結束這個Activity並回復到前一個Activity
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+//        清除job的活動
+
     }
 }
 /*
