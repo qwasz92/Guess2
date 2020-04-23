@@ -7,9 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
@@ -22,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_function.view.*
 import java.util.jar.Manifest
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_COODE_CAMERA=100
@@ -161,5 +160,22 @@ class MainActivity : AppCompatActivity() {
     {
      var nameText:TextView = view.name
 //    設計nameText是一個TextView 是在view物件的name
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//當Activity要顯示的時候，會去要一個物件
+        menuInflater.inflate(R.menu.menu_main_xlm,menu)
+// menuInflater物件呼叫inflate(物件在R.menu.menu_main_xlm,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//當使用者觸碰OptionsItemSelected
+        if (item.itemId == R.id.action_cache){
+//如果item.itemId == R.id.action_cache 執行以下內容
+            Log.d(TAG, "Cache selected");
+//除錯內容Cache selected
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
