@@ -26,7 +26,9 @@ class MainActivity : AppCompatActivity() {
     private val REQUEST_COODE_CAMERA=100
 //定義REQUEST_COOD_CAMERA為100
     val TAG = MainActivity::class.java.simpleName
-
+//定義 TAG 為MainActivity物件
+    var cacheService:Intent?= null
+//定義物件為null值
     //RecyclerView (清單元件)
     val functions = listOf<String>(
         "Camera",
@@ -175,7 +177,18 @@ class MainActivity : AppCompatActivity() {
 //如果item.itemId == R.id.action_cache 執行以下內容
             Log.d(TAG, "Cache selected");
 //除錯內容Cache selected
+            cacheService = Intent(this,CacheService::class.java)
+//給予cacheService的Intent內容(this,CacheService::class.java)
+            startService(cacheService)
+//執行intent物件
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStop() {
+//停止程式
+        super.onStop()
+        stopService(cacheService)
+//停止Service的cacheService
     }
 }

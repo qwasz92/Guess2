@@ -25,6 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".CacheService"/>
+<!--        建立服務-->
     </application>
 
 </manifest>
