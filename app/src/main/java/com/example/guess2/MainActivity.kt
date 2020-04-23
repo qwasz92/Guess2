@@ -1,8 +1,11 @@
 package com.example.guess2
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +15,17 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_function.view.*
+import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
+    private val REQUEST_COODE_CAMERA=100
+//定義REQUEST_COOD_CAMERA為100
     val TAG = MainActivity::class.java.simpleName
 
     //RecyclerView (清單元件)
@@ -97,16 +105,55 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun functionClicked(position: Int) {
-//        方法functionClicked判斷position的值
+// 方法functionClicked判斷position的值
         when (position){
-//            判斷position
+// 判斷position
+            0-> {
+                val permission = ContextCompat.checkSelfPermission(this,android.Manifest.permission.CAMERA)
+//定義permission 的危險權限
+                if (permission == PackageManager.PERMISSION_GRANTED){
+//判斷危險權限是否 == PackageManager.PERMISSION_GRANTED
+                takePhoto()
+//執行takePhoto
+                }else{
+                    ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA),REQUEST_COODE_CAMERA)
+//其他就執行對話框ActivityCompat.requestPermissions(在這裡,透過arrayOf(詢問的對權限字串),是否允許的值)
+                }
+            }
+// 當按下0的位置執行intent物件
             1 -> startActivity(Intent(this,MaterialActivity::class.java))
-//            當按下1的位置執行Intent的Activity(this,MaterialActivity::class.java))
+// 當按下1的位置執行Intent的Activity(this,MaterialActivity::class.java))
             2 -> startActivity(Intent(this,RecordListActivity::class.java))
-//            當按下2的位置執行Intent的Activity(this,RecordListActivity::class.java))
+// 當按下2的位置執行Intent的Activity(this,RecordListActivity::class.java))
             else -> return
-//            其他的回傳
+// 其他的回傳
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+// 回傳的第一個requestCode
+        permissions: Array<out String>,
+//字串值陣列
+        grantResults: IntArray
+//結果
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_COODE_CAMERA){
+//如果使用者按下的是requestCode == REQUEST_COODE_CAMERA
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//如果是grantResults[0] == PackageManager.PERMISSION_GRANTED
+                takePhoto()
+//執行takePhoto
+            }
+        }
+    }
+
+    private fun takePhoto() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        // 定義intent物件為MediaStore.ACTION_IMAGE_CAPTURE
+        startActivity(intent)
+//        執行
     }
 
     class FunctionHolder(view : View) : RecyclerView.ViewHolder(view)
