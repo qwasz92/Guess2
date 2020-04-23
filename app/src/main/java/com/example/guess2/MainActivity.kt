@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -37,6 +39,28 @@ class MainActivity : AppCompatActivity() {
 //        recycler是一個固定大小的(true)
         recycler.adapter = FunctionAdapter()
 //        recycler適合的連結器是FunctionAdapter
+//spinner練習
+        val colors = arrayOf("Red","Green","Blue")
+//定義colors 是arrayOf的集合(內容名稱為)
+        val adapter = ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,colors)
+//定義adapter 是  ArrayAdapter<它是一個字串>(位置在這裡，實作在android.R.layout.simple_spinner_item裡面,顯示文字為colors)
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+//adapter再設定額外的資源setDropDownViewResource在(android.R.layout.simple_dropdown_item_1line)
+        spinner.adapter = adapter
+//在spinner呼叫adapter =adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+//在spinner裡面點擊項目onItemSelectedListener  目標 :Adapter的物件.監聽選到的項目
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?,view: View?,position: Int,id: Long) {
+//當我按到之後onItemSelected的時候，執行甚麼  (parent: AdapterView<*>?,點的文字名稱: View?,位置: Int,名稱: Long)
+                Log.d(TAG, "onItemSelected:${colors[position]} ");
+//除錯onItemsSeleted是否選擇到
+            }
+
+        }
     }
     inner class FunctionAdapter():RecyclerView.Adapter<FunctionHolder>()
 //    內部的類別FunctionAdapter繼承RecyclerView.Adapter<是使用FunctionHolder>()
