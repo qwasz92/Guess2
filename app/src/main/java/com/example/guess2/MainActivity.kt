@@ -126,6 +126,9 @@ class MainActivity : AppCompatActivity() {
 // 當按下1的位置執行Intent的Activity(this,MaterialActivity::class.java))
             2 -> startActivity(Intent(this,RecordListActivity::class.java))
 // 當按下2的位置執行Intent的Activity(this,RecordListActivity::class.java))
+            4 -> startActivity(Intent(this,NewsActivity::class.java))
+// 當按下4的位置執行Intent的Activity(this,NewsActivity::class.java))
+
             else -> return
 // 其他的回傳
         }
@@ -181,17 +184,20 @@ class MainActivity : AppCompatActivity() {
 //給予cacheService的Intent內容(this,CacheService::class.java)
             startService(cacheService)
 //執行intent物件
+/*  原課程33內容
             startService(Intent(this,CacheService::class.java))
             startService(Intent(this,CacheService::class.java))
-//測試用的IntentService
+//測試用的IntentService*/
         }
         return super.onOptionsItemSelected(item)
     }
-
+/*
+原課程33內容
     override fun onStop() {
 //停止程式
-        super.onStop()
+       super.onStop()
+
         stopService(cacheService)
 //停止Service的cacheService
-    }
+    }*/
 }
