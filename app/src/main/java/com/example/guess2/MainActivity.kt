@@ -181,6 +181,9 @@ class MainActivity : AppCompatActivity() {
 //給予cacheService的Intent內容(this,CacheService::class.java)
             startService(cacheService)
 //執行intent物件
+            startService(Intent(this,CacheService::class.java))
+            startService(Intent(this,CacheService::class.java))
+//測試用的IntentService
         }
         return super.onOptionsItemSelected(item)
     }
